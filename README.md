@@ -1,64 +1,70 @@
+# The World in One Day — 26 November 2026
+
 [![make.fun · news-image-20261126](https://make.fun/badge/news-image-20261126.svg)](https://make.fun/bounty/news-image-20261126)
 [![rank](https://make.fun/badge/news-image-20261126/rendsstwn/makefun-news-image-20261126/rank.svg)](https://make.fun/bounty/news-image-20261126/leaderboard)
 [![reward](https://make.fun/badge/news-image-20261126/rendsstwn/makefun-news-image-20261126/reward.svg)](https://make.fun/bounty/news-image-20261126)
 
-# The World Today — Thursday 26 November 2026
+A one-page newspaper front page that sums up **Thursday 26 November 2026**
+in a single image: 50 stories, 9 regions, one day. Cream paper, black serif
+masthead, three illustrated leads, a ten-card grid, a numbered world map,
+an ALSO ON list, and a DATE CHECK footer.
 
-A single 1024×1024 picture that sums up one day of world news
-as a newspaper front page: **THE WORLD TODAY**.
+## The three leads
 
-The front page leads with what is genuinely new on Thursday
-26 November and big enough to carry the day — KCNA reporting
-that Kim Jong Un ordered a wider tactical-nuclear deployment.
-The American tariff proposal, first reported on Wednesday
-25 November, stays near the top of the grid, labelled as
-carried rather than dressed up as today's news. The two tankers
-ablaze in the Strait of Hormuz stay on the page as a CLAIM:
-Reuters reported them on 25 November with no independent
-confirmation, so a claim must not lead the page.
+1. **Macy's 100th parade postponed** (New York, OFFICIAL) — the Thanksgiving
+   storm grounds the centenary march; 60 mph gusts push it to Saturday 28 Nov.
+2. **Kim orders wider nuclear deployment** (Pyongyang, OFFICIAL) — KCNA
+   reports tactical nuclear weapons going to front-line units on Thursday.
+3. **Bank of Korea lifts rate to 3.25%** (Seoul, OFFICIAL) — third hike since
+   July, 5–2 vote; 2027 growth outlook raised to 4.1% on AI exports.
 
-Fifty stories in all: three large leads, twelve grid cards and
-thirty-five more in the numbered ALSO ON list, across ten
-regions and twenty fields. A strip of headline figures sits
-under the nameplate, a dark BY THE NUMBERS strip sits near the
-foot, and a small world map marks the fifteen featured stories
-with numbered dots. The DATE CHECK footer prints the honest
-split — 17 stories first reported Thu 26 Nov, 30 carried from
-Wed 25 Nov, 3 from Tue 24 Nov — and names the earlier items
-deliberately left out.
+## The day in ten (stories 4–13)
 
-## What is in here
+4. EU deadlocked on €45bn Ukraine loan (Brussels, REPORTED)
+5. India marks 18 years since 26/11 (Mumbai, OFFICIAL)
+6. Gukesh v Sindarov, Game 3 (Geneva, OFFICIAL)
+7. Bangladesh garment wage Tk17,000 (Dhaka, REPORTED)
+8. BBC: 490,334 Russian soldiers dead (London, REPORTED)
+9. Israel kills Hamas economy chief (Gaza, REPORTED)
+10. Russia hits Ukraine with 113 drones (Kyiv, REPORTED)
+11. UK–EU publish reset treaties (London, REPORTED)
+12. Spain sends army to El Hierro (El Hierro, REPORTED)
+13. Kospi claws back +0.3% (Seoul, REPORTED)
 
-- `main.py` — the entry program, Python 3.13 with the standard
-  library only. It ferries the bundled `entry.png` to
-  `/output/entry.png` and checks the copy by SHA-256.
-- `entry.png` — the front page itself, 1024×1024.
-- `gen.py` — the build-time script that painted `entry.png`
-  from the fifty verified stories, using Pillow and the DejaVu
-  faces. Its story table is one flat list in display order, so
-  a rebuild for another day means editing data only.
+## And also (stories 14–50)
 
-## Running it
+Myanmar refuses ICJ orders · Ramaphosa eulogy for Mlambo-Ngcuka · India A v
+Sri Lanka A semi-final · Hera shows the DART crater · Malaysia sues Google
+$146m · Nigeria seizes $227m meth lab · US jobless claims 189,000 · EU caps
+hybrid car imports · Boehly's $10bn Lukoil swap · IS attack in Hasakah ·
+IPL 2027 auction: 1,220 players · Brazil tariff "unacceptable" · Argentina
+names Brazil ambassador · Puerto Rico Luma deal · U-17 World Cup · North
+Korea orders Swiss office shut · Korail work-to-rule · Vance on Huang ·
+Lee's seven seed projects · Xi probe reaches Chen Jining · Brazil dengue
+down 68% · Palm Beach ferries strike · Swiss tourist, Cameroon elephants ·
+Iowa explosives disposal · Coalition hits Hodeidah · UN sacks Gaza staff ·
+Saudi kidnapped in Niger · Gulf of Mexico plane crash · PIA resumes UK
+flights · IITs add 6,000 seats · Australia inflation 4.9% · India–Nepal
+₹15,000cr package · Tempus $600m cash election · Colombia hostages freed ·
+Sudan RSF strikes · Savasleyka jets · Solomon Islands–Australia pact.
 
-Run `MAKEFUN_OUTPUT_DIR=out python3 main.py` — the program
-creates the output folder itself if it is missing.
+## Build
 
-It reads nothing but the bundled picture, touches no network,
-and writes the same bytes on every run — run it three times
-and the output is byte-identical every time.
+```sh
+python3 main.py        # writes /output/entry.png (1024x1024, deterministic)
+python3 gen.py entry.png
+```
 
-## How the stories were checked
+The renderer uses only Pillow and the DejaVu fonts shipped with the system.
+No network access, no random seeds: running it three times produces
+byte-identical PNGs.
 
-Each story was checked against reporting dated Thursday
-26 November 2026, or carried honestly from Wednesday 25 November
-or Tuesday 24 November, with the split stated in the DATE CHECK
-footer: 17 first reported Thu 26 Nov, 30 carried from Wed
-25 Nov, 3 from Tue 24 Nov. The page names its day three times —
-the nameplate date, the stat strip and the DATE CHECK footer —
-and the footer lists what it left out on purpose: Nvidia's
-record surge (Mon 23), Huang back at Nvidia (Mon 23), and the
-CrowdStrike–Zscaler deal (Mon 23). Every story carries a status
-word: OFFICIAL for an authority's own figure or act, REPORTED
-for a press report, CLAIM for one side's account.
+## Sources
 
-Licensed under the MIT license — see `LICENSE`.
+KCNA, Bank of Korea, Reuters, BBC, AFP, AP, FIDE, USTR, ABS, SAnews,
+NDLEA, MCMC. Status tags: OFFICIAL = announced by the authority;
+REPORTED = reported by two or more outlets; CLAIM = one side's claim.
+
+## License
+
+MIT — see LICENSE.
