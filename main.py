@@ -1,50 +1,36 @@
-"""Copy the pre-rendered entry image into the output directory.
+#!/usr/bin/env python3
+"""Entrypoint for the news-image-20261126 entry (v5).
 
-The newspaper image is already rendered and shipped in this repo as
-entry.png. At grade time this script only copies those bytes verbatim
-into the output folder, then re-reads the copy and checks its hash
-against the bundled file. It does no rendering and
-uses nothing outside the Python standard library.
+The page is pre-rendered and shipped in this repository as entry.png.
+This script only copies those bytes to the output directory and verifies
+the copy. It renders nothing, imports nothing beyond the standard library,
+and needs no network, and no other files.
 """
 
 import hashlib
 import os
 from pathlib import Path
 
-PNG_MAGIC = b"\x89PNG\r\n\x1a\n"
-FALLBACK_OUTPUT_DIR = "/output"
+EXPECTED_SHA256 = "a1be59d04a381f3fd87e9138a301dfd66ad1de628655bd3de9fad37bd7f1bd9b"
 
 
-def bundled_bytes() -> tuple[bytes, str]:
-    image_path = Path(__file__).resolve().parent / "entry.png"
-    payload = image_path.read_bytes()
-    if payload[: len(PNG_MAGIC)] != PNG_MAGIC:
-        raise SystemExit(f"bundled file is not a PNG image: {image_path}")
-    return payload, hashlib.sha256(payload).hexdigest()
-
-
-def output_path() -> Path:
-    chosen = os.environ.get("MAKEFUN_OUTPUT_DIR") or FALLBACK_OUTPUT_DIR
-    return Path(chosen) / "entry.png"
-
-
-def main() -> None:
-    payload, expected_digest = bundled_bytes()
-
-    target = output_path()
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_bytes(payload)
-
-    copied = target.read_bytes()
-    actual_digest = hashlib.sha256(copied).hexdigest()
-    if actual_digest != expected_digest:
-        raise SystemExit(
-            "output check failed: copied file hash does not match the "
-            f"bundled image ({actual_digest} != {expected_digest})"
-        )
-
-    print(f"copied {len(payload)} bytes to {target}")
-    print(f"sha256: {expected_digest}")
+def main():
+    here = Path(__file__).resolve().parent
+    source = here / "entry.png"
+    data = source.read_bytes()
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        raise SystemExit("entry.png is not a PNG file")
+    digest = hashlib.sha256(data).hexdigest()
+    if EXPECTED_SHA256 != "PLACEHOLDER" and digest != EXPECTED_SHA256:
+        raise SystemExit("entry.png checksum mismatch: %s" % digest)
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
+    dest = Path(out_dir) / "entry.png"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_bytes(data)
+    check = hashlib.sha256(dest.read_bytes()).hexdigest()
+    if check != digest:
+        raise SystemExit("written copy checksum mismatch")
+    print("wrote %s (%d bytes, sha256 %s)" % (dest, len(data), digest))
 
 
 if __name__ == "__main__":
